@@ -101,7 +101,7 @@ int main()
         if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
         {
             float x;
-            if (sf::Mouse::getPosition(window).x <= SCREEN_WIDTH/2) x = -100.f;
+            if (sf::Mouse::getPosition(window).x <= (int)SCREEN_WIDTH/2) x = -100.f;
             else x = 100.f;
 
             ball.velocity.x += x;
