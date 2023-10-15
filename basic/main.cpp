@@ -1,12 +1,12 @@
 #include <SFML/Graphics.hpp>
 #include <cmath>
-#include <vector>
+#include <iostream>
 
 const unsigned int SCREEN_WIDTH = 800;
 const unsigned int SCREEN_HEIGHT = 600;
 const sf::Vector2f GRAVITY = { 0.f, 1500.f };
 
-struct ball {
+struct {
     float mass;
     sf::Vector2f velocity;
     sf::CircleShape shape;
@@ -55,12 +55,32 @@ void runPhysics(sf::Time elapsed)
     if (topDist <= radius || bottomDist <= radius)
     {
         newVelocity = calcFrictionVelocity(ball.velocity, -cFriction, ball.mass);
-        newPos = calcPosition(pos, newVelocity, dt);
+        // Collision resolution
+        if (topDist <= radius)
+        {
+            float penetration = radius - newPos.y;
+            newPos.y += penetration;
+        }
+        else
+        {
+            float penetration = radius - std::abs(newPos.y - SCREEN_HEIGHT);
+            newPos.y -= penetration;
+        }
     }
     if (leftDist <= radius || rightDist <= radius)
     {
         newVelocity = calcFrictionVelocity(ball.velocity, cFriction, ball.mass);
-        newPos = calcPosition(pos, newVelocity, dt);
+        // Collision resolution
+        if (leftDist <= radius)
+        {
+            float penetration = radius - newPos.x;
+            newPos.x += penetration;
+        }
+        else
+        {
+            float penetration = radius - std::abs(newPos.x - SCREEN_WIDTH);
+            newPos.x -= penetration;
+        }
     }
 
     ball.velocity = newVelocity;

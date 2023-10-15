@@ -16,6 +16,8 @@ ifeq ($(detected_OS), Darwin)
     CXXFLAGS += -I/usr/local/Cellar/sfml/2.6.0/include -L/usr/local/Cellar/sfml/2.6.0/lib -lsfml-graphics -lsfml-window -lsfml-system
 endif
 
+all: build/app
+
 build/app: main.cpp
 	[ -d build ] || mkdir build
 	g++ main.cpp -o build/app $(CPPFLAGS) $(CXXFLAGS)
